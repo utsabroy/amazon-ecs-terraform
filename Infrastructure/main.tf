@@ -163,7 +163,7 @@ module "ecs_taks_definition_server" {
   execution_role_arn = module.ecs_role.arn_role
   task_role_arn      = module.ecs_role.arn_role_ecs_task_role
   cpu                = 256
-  memory             = "512"
+  memory             = "256"  # Reduced from 512MB to 256MB for cost optimization
   docker_repo        = module.ecr_server.ecr_repository_url
   region             = var.aws_region
   container_port     = var.port_app_server
@@ -177,7 +177,7 @@ module "ecs_taks_definition_client" {
   execution_role_arn = module.ecs_role.arn_role
   task_role_arn      = module.ecs_role.arn_role_ecs_task_role
   cpu                = 256
-  memory             = "512"
+  memory             = "256"  # Reduced from 512MB to 256MB for cost optimization
   docker_repo        = module.ecr_client.ecr_repository_url
   region             = var.aws_region
   container_port     = var.port_app_client
@@ -236,6 +236,7 @@ module "ecs_service_client" {
   subnets_id          = [module.networking.private_subnets_client[0], module.networking.private_subnets_client[1]]
   container_port      = var.port_app_client
   container_name      = var.container_name["client"]
+  use_fargate_spot    = true  # Enable Fargate Spot for cost optimization
 }
 
 # ------- Creating ECS Autoscaling policies for the server application -------
