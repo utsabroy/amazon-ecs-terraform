@@ -2,46 +2,52 @@
 # SPDX-License-Identifier: MIT-0
 
 variable "name" {
-  description = "The name for the ecs service"
+  description = "Name of the ECS service"
   type        = string
 }
 
 variable "desired_tasks" {
-  description = "The minumum number of tasks to run in the service"
-  type        = string
+  description = "Number of desired tasks running in parallel"
+  type        = number
 }
 
 variable "arn_security_group" {
-  description = "ARN of the security group for the tasks"
+  description = "ARN of the security group"
   type        = string
 }
 
 variable "ecs_cluster_id" {
-  description = "The ECS cluster ID in which the resources will be created"
+  description = "ID of the ECS cluster"
   type        = string
 }
 
 variable "arn_target_group" {
-  description = "The ARN of the AWS Target Group to put the ECS task"
+  description = "ARN of the target group"
   type        = string
 }
 
 variable "arn_task_definition" {
-  description = "The ARN of the Task Definition to use to deploy the tasks"
+  description = "ARN of the task definition"
   type        = string
 }
 
 variable "subnets_id" {
-  description = "Subnet ID in which ecs will deploy the tasks"
+  description = "List of subnet IDs"
   type        = list(string)
 }
 
 variable "container_port" {
-  description = "The port that the container will listen request"
-  type        = string
+  description = "Port of the container"
+  type        = number
 }
 
 variable "container_name" {
-  description = "The name of the container"
+  description = "Name of the container"
   type        = string
+}
+
+variable "use_fargate_spot" {
+  description = "Whether to use Fargate Spot capacity providers"
+  type        = bool
+  default     = false
 }
