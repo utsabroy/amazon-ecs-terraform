@@ -176,8 +176,8 @@ module "ecs_taks_definition_client" {
   container_name     = var.container_name["client"]
   execution_role_arn = module.ecs_role.arn_role
   task_role_arn      = module.ecs_role.arn_role_ecs_task_role
-  cpu                = 256
-  memory             = "512"
+  cpu                = 128
+  memory             = "256"
   docker_repo        = module.ecr_client.ecr_repository_url
   region             = var.aws_region
   container_port     = var.port_app_client
@@ -221,6 +221,11 @@ module "ecs_service_server" {
   subnets_id          = [module.networking.private_subnets_server[0], module.networking.private_subnets_server[1]]
   container_port      = var.port_app_server
   container_name      = var.container_name["server"]
+  capacity_provider_strategy = {
+    capacity_provider = "FARGATE_SPOT"
+    weight           = 100
+    base             = 0
+  }
 }
 
 # ------- Creating ECS Service client -------
@@ -236,6 +241,11 @@ module "ecs_service_client" {
   subnets_id          = [module.networking.private_subnets_client[0], module.networking.private_subnets_client[1]]
   container_port      = var.port_app_client
   container_name      = var.container_name["client"]
+  capacity_provider_strategy = {
+    capacity_provider = "FARGATE_SPOT"
+    weight           = 100
+    base             = 0
+  }
 }
 
 # ------- Creating ECS Autoscaling policies for the server application -------
